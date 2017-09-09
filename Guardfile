@@ -46,6 +46,9 @@ guard :rspec, cmd: 'spring rspec' do
   rails = dsl.rails
   dsl.watch_spec_files_for(rails.app_files)
 
+  # Lib
+  watch(%r{^app/lib/(?<path>.+)\.rb$}) { |m| "spec/lib/#{m[:path]}_spec.rb" }
+
   watch(rails.controllers) do |m|
     [
       rspec.spec.call("requests/#{m[1]}")

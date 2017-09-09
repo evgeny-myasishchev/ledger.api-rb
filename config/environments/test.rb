@@ -41,4 +41,7 @@ Rails.application.configure do
 
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
+
+  # APP specific stuff
+  config.mongo_url = 'mongodb://localhost:27017/ledger-test'
 end

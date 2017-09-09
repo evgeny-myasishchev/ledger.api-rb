@@ -42,4 +42,7 @@ Rails.application.configure do
   # Use an evented file watcher to asynchronously detect changes in source code,
   # routes, locales, etc. This feature depends on the listen gem.
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
+
+  # APP specific stuff
+  config.mongo_url = 'mongodb://localhost:27017/ledger-dev'
 end
