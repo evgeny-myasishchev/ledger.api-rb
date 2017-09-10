@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  get '/' => 'health#index'
+
   namespace :v1 do
     resources :accounts, only: :index
   end
