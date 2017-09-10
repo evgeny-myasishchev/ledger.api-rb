@@ -35,5 +35,6 @@ module LedgerApi
     # APP specific stuff
     config.autoload_paths << "#{Rails.root}/lib"
     config.mongo_url = ENV['MONGO_URL']
+    config.log_tags = [:request_id]
   end
 end
