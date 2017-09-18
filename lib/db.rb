@@ -7,7 +7,7 @@ class DB
     end
 
     def client
-      @client ||= Mongo::Client.new(Rails.application.config.mongo_url)
+      @client ||= Mongo::Client.new(Rails.application.config.mongo_url, logger: Rails.logger)
     end
   end
 end

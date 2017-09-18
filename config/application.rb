@@ -36,5 +36,10 @@ module LedgerApi
     config.autoload_paths << "#{Rails.root}/lib"
     config.mongo_url = ENV['MONGO_URL']
     config.log_tags = [:request_id]
+    config.log_path = STDOUT
+
+    initializer 'json_logger', before: :initialize_logger do
+      config.logger = JsonLogger.new(config.log_tags, config.log_path)
+    end
   end
 end

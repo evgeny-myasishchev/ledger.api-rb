@@ -44,4 +44,5 @@ Rails.application.configure do
 
   # APP specific stuff
   config.mongo_url = 'mongodb://localhost:27017/ledger-test'
+  config.log_path =  "log/#{Rails.env}.log"
 end
