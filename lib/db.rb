@@ -6,6 +6,10 @@ class DB
       client[collection].find(query)
     end
 
+    def insert_one(collection, doc, opts = {})
+      client[collection].insert_one doc, opts
+    end
+
     def client
       @client ||= Mongo::Client.new(Rails.application.config.mongo_url, logger: Rails.logger)
     end
