@@ -5,6 +5,8 @@ class JsonLogger < Ougai::Logger
   include LoggerSilence
 
   class TaggedBunyanFormatter < Ougai::Formatters::Bunyan
+    delegate :current_tags, to: :@tagged_formatter
+
     def initialize(tagged_formatter, log_tag_names, *args)
       super(*args)
       @tagged_formatter = tagged_formatter
