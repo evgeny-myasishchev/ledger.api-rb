@@ -3,7 +3,7 @@
 module V1
   class AccountsController < ApplicationController
     def index
-      accounts = DB.find('accounts').map { |a| Account.new(a) }
+      accounts = Account.all
       respond_to do |format|
         format.json { render json: accounts, adapter: :json_api }
       end

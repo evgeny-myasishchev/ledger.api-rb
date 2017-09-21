@@ -3,6 +3,10 @@
 require 'rails_helper'
 
 describe Account, type: :model do
+  before(:each) do
+    Mongoid.default_client[:accounts].drop
+  end
+
   describe 'create' do
     it 'should save new account' do
       created_account = create(:account)
