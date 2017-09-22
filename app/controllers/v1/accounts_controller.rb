@@ -5,7 +5,7 @@ module V1
     def index
       accounts = Account.all
       respond_to do |format|
-        format.json { render json: accounts, adapter: :json_api }
+        format.json { render json: accounts }
       end
     end
   end
