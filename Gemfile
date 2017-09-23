@@ -25,7 +25,7 @@ gem 'puma', '~> 3.7'
 # gem 'rack-cors'
 
 gem 'active_model_serializers', '~> 0.10.0'
-
+gem 'jwt'
 gem 'mongoid'
 
 # Logging
@@ -50,6 +50,7 @@ group :development, :test do
 
   gem 'factory_girl'
   gem 'faker'
+  gem 'webmock'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
