@@ -12,7 +12,7 @@ module V1
     def create
       account = Account.create! create_params
       respond_to do |format|
-        format.json { render json: account }
+        format.json { render json: account, status: :created }
       end
     end
 
