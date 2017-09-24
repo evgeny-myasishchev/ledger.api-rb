@@ -2,6 +2,8 @@
 
 class ApplicationController < ActionController::API
   include ActionController::MimeResponds
+  include ErrorHandler
+  include AuthenticateRequest
 
   before_action :set_default_request_format
 
