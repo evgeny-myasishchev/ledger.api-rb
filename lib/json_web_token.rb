@@ -3,7 +3,13 @@
 class JsonWebToken
   include Loggable
 
-  class TokenVerificationError < StandardError; end
+  class TokenVerificationError < Errors::HttpError
+    def initialize(msg)
+      super(msg, errors: [{
+        status: 401, code: 'Unauthorized', title: msg
+      }])
+    end
+  end
 
   class << self
     def verify(token)
@@ -18,6 +24,7 @@ class JsonWebToken
         jwks_key(header['kid']).public_key
       end[0]
     rescue JWT::DecodeError => e
+      logger.info('Failed to verify token', token: token)
       raise TokenVerificationError, "Token verification failed: #{e.message}"
     end
 

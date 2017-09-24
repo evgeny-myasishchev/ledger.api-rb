@@ -11,6 +11,8 @@ module AuthenticateRequest
 
   def authenticate
     token, _options = ActionController::HttpAuthentication::Token.token_and_options request
-    raise Errors::UnauthorizedRequestError, 'Authorization header not found' if token.blank?
+    raise Errors::UnauthorizedRequestError, 'No Bearer token found in Authorization header' if token.blank?
+    payload = JsonWebToken.verify token
+    logger.info "Request authenticated. Subject: #{payload['sub']}"
   end
 end
