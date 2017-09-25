@@ -62,7 +62,7 @@ RSpec.describe 'V1::Accounts', type: :request do
                 ])
     end
 
-    xit 'should respond with 403 if bad scopes' do
+    it 'should respond with 403 if bad scopes' do
       get v1_accounts_path, with_valid_auth_header(scope: 'not-read:accounts')
       expect(response).to have_http_status(403)
       expect(JSON.parse(response.body))

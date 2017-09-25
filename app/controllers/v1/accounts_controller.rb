@@ -2,6 +2,7 @@
 
 module V1
   class AccountsController < ApplicationController
+    require_scopes :index, ['read:accounts']
     def index
       accounts = Account.all
       respond_to do |format|
@@ -9,6 +10,7 @@ module V1
       end
     end
 
+    require_scopes :create, ['write:accounts']
     def create
       account = Account.create! create_params
       respond_to do |format|
