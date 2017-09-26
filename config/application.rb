@@ -36,6 +36,7 @@ module LedgerApi
     config.autoload_paths << "#{Rails.root}/lib"
     config.log_tags = [:request_id]
     config.log_path = STDOUT
+    config.action_controller.action_on_unpermitted_parameters = :raise
 
     initializer 'json_logger', before: :initialize_logger do
       config.logger = JsonLogger.new(config.log_tags, config.log_path)
