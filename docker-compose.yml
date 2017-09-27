@@ -1,6 +1,6 @@
 version: '3.2'
 services:
   db:
-    image: mongo:3.4
+    image: postgres:9.5
     ports:
-      - "27017:27017"
+      - "5432:5432"

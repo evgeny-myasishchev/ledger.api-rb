@@ -6,10 +6,6 @@ RSpec.describe 'V1::Accounts', type: :request do
   include JsonApiSerialize
   include AuthHelpers
 
-  before(:each) do
-    Mongoid.default_client[:accounts].drop
-  end
-
   describe 'GET /v1/accounts' do
     it_behaves_like 'authorized action', :get, :v1_accounts_path, 'read:accounts'
 
