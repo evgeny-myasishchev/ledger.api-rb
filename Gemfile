@@ -49,7 +49,7 @@ group :development, :test do
   gem 'guard-rspec', require: false
 
   gem 'factory_girl'
-  gem 'faker'
+  gem 'ffaker'
   gem 'webmock'
 end
 

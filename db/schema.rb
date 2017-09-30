@@ -18,13 +18,13 @@ ActiveRecord::Schema.define(version: 20170927060627) do
   create_table "accounts", id: :string, force: :cascade do |t|
     t.string "ledger_id", null: false
     t.string "name", null: false
-    t.integer "sequential_number", null: false
-    t.string "owner_user_id", null: false
+    t.integer "display_order", null: false
+    t.string "created_user_id", null: false
     t.string "currency_code", null: false
     t.string "unit"
     t.integer "balance", default: 0, null: false
     t.integer "pending_balance", default: 0, null: false
-    t.boolean "is_closed", null: false
+    t.boolean "is_closed", default: false, null: false
   end
 
   create_table "ledgers", id: :string, force: :cascade do |t|

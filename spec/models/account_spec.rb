@@ -17,4 +17,12 @@ describe Account, type: :model do
       expect(db_account.name).to eql(created_account.name)
     end
   end
+
+  describe 'associations' do
+    it 'should belong to ledger' do
+      ledger = create(:ledger)
+      account = create(:account, ledger: ledger)
+      expect(account.ledger).to eql ledger
+    end
+  end
 end
