@@ -27,6 +27,14 @@ ActiveRecord::Schema.define(version: 20170927060627) do
     t.boolean "is_closed", default: false, null: false
   end
 
+  create_table "ledger_users", id: false, force: :cascade do |t|
+    t.string "ledger_id", null: false
+    t.string "user_id", null: false
+    t.boolean "is_owner", default: false, null: false
+    t.index ["ledger_id"], name: "index_ledger_users_on_ledger_id"
+    t.index ["user_id"], name: "index_ledger_users_on_user_id"
+  end
+
   create_table "ledgers", id: :string, force: :cascade do |t|
     t.string "name", null: false
     t.string "created_user_id", null: false
@@ -35,14 +43,6 @@ ActiveRecord::Schema.define(version: 20170927060627) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "ledgers_users", id: false, force: :cascade do |t|
-    t.string "ledger_id", null: false
-    t.string "user_id", null: false
-    t.boolean "is_owner", default: false, null: false
-    t.index ["ledger_id"], name: "index_ledgers_users_on_ledger_id"
-    t.index ["user_id"], name: "index_ledgers_users_on_user_id"
-  end
-
   add_foreign_key "accounts", "ledgers"
-  add_foreign_key "ledgers_users", "ledgers"
+  add_foreign_key "ledger_users", "ledgers"
 end

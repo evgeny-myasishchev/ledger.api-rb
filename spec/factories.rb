@@ -16,4 +16,8 @@ FactoryGirl.define do
     created_user_id { FakeData.fake_string 'user' }
     currency_code :gb
   end
+
+  factory :ledger_user do
+    user_id { FakeData.fake_string 'user' }
+  end
 end

@@ -4,6 +4,7 @@ class Ledger < ApplicationRecord
   include Loggable
 
   has_many :accounts
+  has_many :ledger_users
 
   def create_account!(params)
     account = accounts.build params

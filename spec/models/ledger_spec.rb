@@ -16,6 +16,12 @@ RSpec.describe Ledger, type: :model do
       create_list(:account, 5)
       expect(ledger.accounts.to_a).to eql accounts
     end
+
+    it 'should have many ledgers_users' do
+      ledger = create(:ledger)
+      ledger_users = create_list(:ledger_user, 3, ledger: ledger)
+      expect(ledger.ledger_users.to_json).to eql ledger_users.to_json
+    end
   end
 
   describe 'create_account!' do
