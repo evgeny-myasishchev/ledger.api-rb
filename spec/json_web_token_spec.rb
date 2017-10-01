@@ -54,7 +54,7 @@ describe JsonWebToken do
 
     it 'should raise error if no such kid' do
       stub_jwks_endpoint cert
-      fake_kid = "fake-kid-#{Faker::Lorem.word}"
+      fake_kid = "fake-kid-#{FFaker::Lorem.word}"
       _payload, encoded_token = create_jwt_token fake_kid, private_key
       expect do
         JsonWebToken.verify encoded_token
