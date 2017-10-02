@@ -26,19 +26,21 @@ RSpec.describe Ledger, type: :model do
 
   describe 'create_account!' do
     it 'should create a new account for the ledger' do
+      user = build(:user)
       ledger = create(:ledger)
-      account_attribs = build(:account).attributes.except 'ledger_id'
-      account = ledger.create_account! account_attribs
+      account_attribs = build(:account, created_user_id: user.user_id).attributes.except('ledger_id')
+      account = ledger.create_account! user, account_attribs.except('created_user_id')
       expect(account.attributes).to eql account_attribs.merge 'ledger_id' => ledger.id
       db_account = Account.find(account.id)
       expect(db_account.attributes).to eql account.attributes
     end
 
     it 'should set display_order to a very last number' do
+      user = build(:user)
       ledger = create(:ledger)
       max_account = Array.new(3) { create(:account, ledger: ledger, display_order: rand(100)) }
                          .max_by(&:display_order)
-      created_account = ledger.create_account! build(:account).attributes.except 'display_order'
+      created_account = ledger.create_account! user, build(:account).attributes.except('display_order')
       expect(created_account.display_order).to be > max_account.display_order
     end
   end

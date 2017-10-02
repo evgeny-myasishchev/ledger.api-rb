@@ -12,7 +12,10 @@ module V1
 
     require_scopes :create, ['write:accounts']
     def create
-      account = Account.create! create_params
+      account_params = create_params(params)
+      ledger = Ledger.find account_params[:ledger_id]
+      # TODO: Eusure user is authorized with that ledger
+      account = ledger.create_account! current_user, account_params
       respond_to do |format|
         format.json { render json: account, status: :created }
       end
@@ -20,10 +23,8 @@ module V1
 
     private
 
-    def create_params
-      account_params = params.require(:data).require(:attributes).permit(:name)
-      account_params[:id] = params[:data][:id] if params[:data].key?(:id)
-      account_params
+    def create_params(params)
+      ActiveModelSerializers::Deserialization.jsonapi_parse! params
     end
   end
 end

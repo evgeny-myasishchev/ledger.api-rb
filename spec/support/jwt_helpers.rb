@@ -37,13 +37,13 @@ module JwtHelpers
     response[:keys]
   end
 
-  def create_jwt_token(kid, private_key, iss: nil, aud: nil, exp: Time.now.to_i + 1000, scope: nil)
+  def create_jwt_token(kid, private_key, params = {})
     payload = {
-      'aud' => aud || Rails.application.secrets.auth0_api_audience,
-      'iss' => iss || "https://#{Rails.application.secrets.auth0_domain}/",
-      'sub' => FFaker::Internet.email,
-      'exp' => exp,
-      'scope' => scope
+      'aud' => params.fetch(:aud, Rails.application.secrets.auth0_api_audience),
+      'iss' => params.fetch(:iss, "https://#{Rails.application.secrets.auth0_domain}/"),
+      'sub' => params[:sub] || FFaker::Internet.email,
+      'exp' => params.fetch(:exp, Time.now.to_i + 1000),
+      'scope' => params.fetch(:scope, nil)
     }
     [payload, JWT.encode(payload, private_key, 'RS256', kid: kid)]
   end

@@ -23,8 +23,10 @@ RSpec.describe 'V1::Accounts', type: :request do
     it_behaves_like 'authorized action', :post, :v1_accounts_path, 'write:accounts'
 
     it 'should create a new account' do
-      account = build(:account)
-      post v1_accounts_path, with_valid_auth_header(scope: 'write:accounts').merge(params: json_api_serialize(account).as_json)
+      ledger_user = create(:ledger_user)
+      account = build(:account, ledger: ledger_user.ledger, created_user_id: ledger_user.user_id)
+      json = json_api_serialize(account).as_json.with_indifferent_access
+      post v1_accounts_path, with_valid_auth_header(scope: 'write:accounts', sub: ledger_user.user_id).merge(params: json)
       expected_response = json_api_serialize(account)
       expect(response).to have_http_status(201)
       expect(response.body).to eql(expected_response.to_json)
@@ -37,7 +39,7 @@ RSpec.describe 'V1::Accounts', type: :request do
       account = build(:account)
       json_data = json_api_serialize(account).as_json
       json_data[:data].delete(:id)
-      post v1_accounts_path, with_valid_auth_header(scope: 'write:accounts').merge(params: json_data)
+      post v1_accounts_path, with_valid_auth_header(scope: 'write:accounts', sub: account.created_user_id).merge(params: json_data)
       expect(response).to have_http_status(201)
 
       db_account = Account.find_by name: account.name

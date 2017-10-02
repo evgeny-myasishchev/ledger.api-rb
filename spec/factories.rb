@@ -19,5 +19,12 @@ FactoryGirl.define do
 
   factory :ledger_user do
     user_id { FakeData.fake_string 'user' }
+    ledger
+  end
+
+  factory :user do
+    sub { FakeData.fake_string 'user' }
+    scope { "#{FakeData.fake_string('scope-1')},#{FakeData.fake_string('scope-2')}" }
+    initialize_with { new('sub' => sub, 'scope' => scope) }
   end
 end
