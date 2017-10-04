@@ -11,6 +11,10 @@ class User
     @token_payload = token_payload
   end
 
+  def ledgers
+    Ledger.joins(:ledger_users).where(ledger_users: { user_id: user_id })
+  end
+
   def to_s
     inspect
   end
