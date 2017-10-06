@@ -13,7 +13,7 @@ class Ledger < ApplicationRecord
   def create_account!(user, params)
     account = accounts.build params
     account.created_user_id = user.user_id
-    account.display_order = accounts.calculate('maximum', 'display_order') + 1 if account.display_order.blank?
+    account.display_order = (accounts.calculate('maximum', 'display_order') || 0) + 1 if account.display_order.blank?
     logger.info 'Creating a new account', account.attributes
     account.save!
     account

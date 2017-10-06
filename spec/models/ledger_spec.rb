@@ -50,5 +50,12 @@ RSpec.describe Ledger, type: :model do
       created_account = ledger.create_account! user, build(:account).attributes.except('display_order')
       expect(created_account.display_order).to be > max_account.display_order
     end
+
+    it 'should set display_order to a one if no accounts yet' do
+      user = build(:user)
+      ledger = create(:ledger)
+      created_account = ledger.create_account! user, build(:account).attributes.except('display_order')
+      expect(created_account.display_order).to eql 1
+    end
   end
 end
