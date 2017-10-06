@@ -6,6 +6,10 @@ class Ledger < ApplicationRecord
   has_many :accounts
   has_many :ledger_users
 
+  before_create do
+    self.id = SecureRandom.uuid unless id
+  end
+
   def create_account!(user, params)
     account = accounts.build params
     account.created_user_id = user.user_id

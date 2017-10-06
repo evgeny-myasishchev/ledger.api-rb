@@ -38,7 +38,7 @@ ActiveRecord::Schema.define(version: 20170927060627) do
   create_table "ledgers", id: :string, force: :cascade do |t|
     t.string "name", null: false
     t.string "created_user_id", null: false
-    t.string "currency_code"
+    t.string "currency_code", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
