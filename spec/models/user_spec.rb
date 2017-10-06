@@ -12,4 +12,21 @@ describe User, type: :model do
       expect(user.ledgers.to_a).to eql ledgers
     end
   end
+
+  describe 'create_ledger!' do
+    it 'should create a new ledger for given user' do
+      user = build(:user)
+      ledger = build(:ledger)
+      created = user.create_ledger! ledger.attributes
+      expect(created).to be created
+
+      db_ledger = Ledger.find ledger.id
+      expect(db_ledger.attributes).to eql ledger.attributes.merge('created_user_id' => user.user_id,
+                                                                  'created_at' => db_ledger.created_at,
+                                                                  'updated_at' => db_ledger.updated_at)
+      ledger_user = db_ledger.ledger_users.find_by_user_id user.user_id
+      expect(ledger_user).not_to be_blank
+      expect(ledger_user.is_owner).to eql true
+    end
+  end
 end
