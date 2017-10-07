@@ -23,7 +23,7 @@ RSpec.describe 'V1::Ledgers', type: :request do
     end
   end
 
-  describe 'POST /v1/accounts' do
+  describe 'POST /v1/ledgers' do
     it_behaves_like 'authorized action', :post, :v1_ledgers_path, 'write:ledgers'
 
     it 'should create a new ledger for given user' do

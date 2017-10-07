@@ -11,6 +11,7 @@ FactoryGirl.define do
   end
 
   factory :ledger do
+    id { SecureRandom.uuid }
     name { FakeData.fake_string 'Ledger' }
     created_user_id { FakeData.fake_string 'user' }
     currency_code :gb

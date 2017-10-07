@@ -4,14 +4,15 @@ require 'rails_helper'
 
 RSpec.describe Ledger, type: :model do
   it 'should save a new ledger' do
-    id = SecureRandom.uuid
-    ledger = create(:ledger, id: id)
-    created = Ledger.find(id)
+    ledger = create(:ledger)
+    created = Ledger.find(ledger.id)
     expect(created.attributes).to eql(ledger.attributes)
   end
 
   it 'should generate new id' do
-    ledger = create(:ledger)
+    ledger = build(:ledger)
+    ledger.id = nil
+    ledger.save!
     created = Ledger.find(ledger.id)
     expect(created.attributes).to eql(ledger.attributes)
   end
