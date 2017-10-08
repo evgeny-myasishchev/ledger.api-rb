@@ -7,6 +7,7 @@ class CreateAccount < ActiveRecord::Migration[5.1]
       t.string :name, null: false
       t.integer 'display_order', null: false
       t.string 'created_user_id', null: false
+      t.references 'account_category', foreign_key: true
       t.string  'currency_code', null: false
       t.string  'name', null: false
       t.string  'unit'

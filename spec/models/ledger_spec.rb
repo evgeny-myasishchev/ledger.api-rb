@@ -30,6 +30,12 @@ RSpec.describe Ledger, type: :model do
       ledger_users = create_list(:ledger_user, 3, ledger: ledger)
       expect(ledger.ledger_users.to_json).to eql ledger_users.to_json
     end
+
+    it 'should have many account_categories' do
+      ledger = create(:ledger)
+      account_categories = create_list(:account_category, 3, ledger: ledger)
+      expect(ledger.account_categories.to_json).to eql account_categories.to_json
+    end
   end
 
   describe 'create_account!' do
@@ -57,6 +63,31 @@ RSpec.describe Ledger, type: :model do
       ledger = create(:ledger)
       created_account = ledger.create_account! user, build(:account).attributes.except('display_order')
       expect(created_account.display_order).to eql 1
+    end
+  end
+
+  describe 'create_account_category!' do
+    let(:ledger) { create(:ledger) }
+
+    it 'should create a new category for the ledger' do
+      attribs = build(:account_category).attributes.except('ledger_id')
+      account_category = ledger.create_account_category! attribs
+      expect(account_category.attributes).to eql attribs.merge('id' => account_category.id, 'ledger_id' => ledger.id)
+
+      db_rec = AccountCategory.find account_category.id
+      expect(db_rec.attributes).to eql account_category.attributes
+    end
+
+    it 'should set display_order to a very last number' do
+      max_rec = Array.new(3) { create(:account_category, ledger: ledger, display_order: rand(100)) }
+                     .max_by(&:display_order)
+      created = ledger.create_account_category! build(:account_category).attributes.except('display_order')
+      expect(created.display_order).to be > max_rec.display_order
+    end
+
+    it 'should set display_order to a one if no records yet' do
+      created = ledger.create_account_category! build(:account_category).attributes.except('display_order')
+      expect(created.display_order).to eql 1
     end
   end
 end

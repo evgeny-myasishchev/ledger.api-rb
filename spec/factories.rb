@@ -1,6 +1,12 @@
 # frozen_string_literal: true
 
 FactoryGirl.define do
+  factory :account_category do
+    name { FakeData.fake_string 'Category' }
+    display_order { rand(100) }
+    ledger
+  end
+
   factory :account do
     id { SecureRandom.uuid }
     name { FakeData.fake_string 'Account' }

@@ -15,16 +15,25 @@ ActiveRecord::Schema.define(version: 20170927060627) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "account_categories", force: :cascade do |t|
+    t.string "ledger_id", null: false
+    t.integer "display_order", null: false
+    t.string "name", null: false
+    t.index ["ledger_id"], name: "index_account_categories_on_ledger_id"
+  end
+
   create_table "accounts", id: :string, force: :cascade do |t|
     t.string "ledger_id", null: false
     t.string "name", null: false
     t.integer "display_order", null: false
     t.string "created_user_id", null: false
+    t.bigint "account_category_id"
     t.string "currency_code", null: false
     t.string "unit"
     t.integer "balance", default: 0, null: false
     t.integer "pending_balance", default: 0, null: false
     t.boolean "is_closed", default: false, null: false
+    t.index ["account_category_id"], name: "index_accounts_on_account_category_id"
   end
 
   create_table "ledger_users", id: false, force: :cascade do |t|
@@ -43,6 +52,8 @@ ActiveRecord::Schema.define(version: 20170927060627) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "account_categories", "ledgers"
+  add_foreign_key "accounts", "account_categories"
   add_foreign_key "accounts", "ledgers"
   add_foreign_key "ledger_users", "ledgers"
 end
