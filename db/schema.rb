@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170927060627) do
+ActiveRecord::Schema.define(version: 20171009064434) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -52,8 +52,15 @@ ActiveRecord::Schema.define(version: 20170927060627) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "transaction_tags", force: :cascade do |t|
+    t.string "ledger_id", null: false
+    t.string "name", null: false
+    t.index ["ledger_id"], name: "index_transaction_tags_on_ledger_id"
+  end
+
   add_foreign_key "account_categories", "ledgers"
   add_foreign_key "accounts", "account_categories"
   add_foreign_key "accounts", "ledgers"
   add_foreign_key "ledger_users", "ledgers"
+  add_foreign_key "transaction_tags", "ledgers"
 end

@@ -7,6 +7,11 @@ FactoryGirl.define do
     ledger
   end
 
+  factory :transaction_tag do
+    name { FakeData.fake_string 'Category' }
+    ledger
+  end
+
   factory :account do
     id { SecureRandom.uuid }
     name { FakeData.fake_string 'Account' }
