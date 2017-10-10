@@ -18,5 +18,9 @@ Metrics/BlockLength:
     - 'spec/**/*.rb'
 Metrics/MethodLength:
   Max: 20
+
 Metrics/AbcSize:
   Max: 30
+
+Style/RedundantFreeze:
+  Enabled: false

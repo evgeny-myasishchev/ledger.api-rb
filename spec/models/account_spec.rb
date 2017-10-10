@@ -24,5 +24,11 @@ describe Account, type: :model do
       account = create(:account, ledger: ledger)
       expect(account.ledger).to eql ledger
     end
+
+    it 'have many transactions' do
+      account = create(:account)
+      transactions = create_list(:transaction, 5, account: account)
+      expect(account.transactions.to_json).to eql transactions.to_json
+    end
   end
 end

@@ -5,7 +5,7 @@ class CreateTransactions < ActiveRecord::Migration[5.1]
     create_table :transactions, id: :string do |t|
       t.references :account, type: :string, foreign_key: true
       t.string :reported_user_id, type: :string, null: false
-      t.string :type, null: false
+      t.string :type_id, null: false
       t.integer :amount, null: false
       t.text :comment
       t.datetime :date, null: false

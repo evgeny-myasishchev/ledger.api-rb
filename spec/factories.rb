@@ -21,6 +21,17 @@ FactoryGirl.define do
     ledger
   end
 
+  factory :transaction do
+    id { SecureRandom.uuid }
+    reported_user_id { FakeData.fake_string 'user' }
+    amount { rand(10_000) }
+    type_id { FakeData.pick_one(Transaction::DEBIT, Transaction::CREDIT) }
+    comment { FFaker::Lorem.sentence }
+    date { FFaker::Time.datetime }
+
+    account
+  end
+
   factory :ledger do
     id { SecureRandom.uuid }
     name { FakeData.fake_string 'Ledger' }

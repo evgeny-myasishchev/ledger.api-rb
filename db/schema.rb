@@ -61,7 +61,7 @@ ActiveRecord::Schema.define(version: 20171010054348) do
   create_table "transactions", id: :string, force: :cascade do |t|
     t.string "account_id"
     t.string "reported_user_id", null: false
-    t.string "type", null: false
+    t.string "type_id", null: false
     t.integer "amount", null: false
     t.text "comment"
     t.datetime "date", null: false
