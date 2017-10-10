@@ -4,7 +4,7 @@ require 'rails_helper'
 
 RSpec.describe TransactionTag, type: :model do
   describe 'create' do
-    it 'should save a new category' do
+    it 'should save a new tag' do
       created = create(:transaction_tag)
       db_rec = TransactionTag.find(created.id)
       expect(db_rec.attributes).to eql(created.attributes)
