@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171009064434) do
+ActiveRecord::Schema.define(version: 20171010054348) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -58,9 +58,25 @@ ActiveRecord::Schema.define(version: 20171009064434) do
     t.index ["ledger_id"], name: "index_transaction_tags_on_ledger_id"
   end
 
+  create_table "transactions", id: :string, force: :cascade do |t|
+    t.string "account_id"
+    t.string "reported_user_id", null: false
+    t.string "type", null: false
+    t.integer "amount", null: false
+    t.text "comment"
+    t.datetime "date", null: false
+    t.boolean "is_refund", default: false, null: false
+    t.boolean "is_transfer", default: false, null: false
+    t.boolean "is_pending", default: false, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_transactions_on_account_id"
+  end
+
   add_foreign_key "account_categories", "ledgers"
   add_foreign_key "accounts", "account_categories"
   add_foreign_key "accounts", "ledgers"
   add_foreign_key "ledger_users", "ledgers"
   add_foreign_key "transaction_tags", "ledgers"
+  add_foreign_key "transactions", "accounts"
 end
