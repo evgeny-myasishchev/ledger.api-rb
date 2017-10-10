@@ -45,4 +45,5 @@ Rails.application.configure do
 
   # APP specific stuff
   config.mongo_url = 'mongodb://localhost:27017/ledger-dev'
+  config.use_json_logger = false
 end
