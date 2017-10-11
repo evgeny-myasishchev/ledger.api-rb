@@ -11,5 +11,5 @@ class Transaction < ApplicationRecord
 
   belongs_to :account
 
-  validates_inclusion_of :type_id, in: [DEBIT, CREDIT]
+  validates :type_id, inclusion: { in: [DEBIT, CREDIT] }
 end
