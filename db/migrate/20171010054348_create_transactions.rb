@@ -3,7 +3,8 @@
 class CreateTransactions < ActiveRecord::Migration[5.1]
   def change
     create_table :transactions, id: :string do |t|
-      t.references :account, type: :string, foreign_key: true
+      t.string :ledger_id, null: false
+      t.string :account_id
       t.string :reported_user_id, type: :string, null: false
       t.string :type_id, null: false
       t.integer :amount, null: false
@@ -14,6 +15,22 @@ class CreateTransactions < ActiveRecord::Migration[5.1]
       t.boolean :is_pending, null: false, default: false
 
       t.timestamps
+    end
+
+    reversible do |dir|
+      dir.up do
+        execute <<-SQL
+              ALTER TABLE transactions
+                ADD CONSTRAINT fk_tx_on_acc_id_lid_refs_acc_on_acc_id_lid
+                FOREIGN KEY (account_id, ledger_id) REFERENCES accounts(id, ledger_id)
+            SQL
+      end
+      dir.down do
+        execute <<-SQL
+              ALTER TABLE transactions
+                DROP CONSTRAINT fk_tx_on_acc_id_lid_refs_acc_on_acc_id_lid
+            SQL
+      end
     end
   end
 end

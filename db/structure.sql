@@ -159,6 +159,7 @@ ALTER SEQUENCE tags_id_seq OWNED BY tags.id;
 
 CREATE TABLE transactions (
     id character varying NOT NULL,
+    ledger_id character varying NOT NULL,
     account_id character varying,
     reported_user_id character varying NOT NULL,
     type_id character varying NOT NULL,
@@ -251,6 +252,13 @@ CREATE UNIQUE INDEX index_account_categories_on_id_and_ledger_id ON account_cate
 
 
 --
+-- Name: index_accounts_on_id_and_ledger_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_accounts_on_id_and_ledger_id ON accounts USING btree (id, ledger_id);
+
+
+--
 -- Name: index_ledger_users_on_ledger_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -269,13 +277,6 @@ CREATE INDEX index_ledger_users_on_user_id ON ledger_users USING btree (user_id)
 --
 
 CREATE INDEX index_tags_on_ledger_id ON tags USING btree (ledger_id);
-
-
---
--- Name: index_transactions_on_account_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_transactions_on_account_id ON transactions USING btree (account_id);
 
 
 --
@@ -311,19 +312,19 @@ ALTER TABLE ONLY ledger_users
 
 
 --
--- Name: transactions fk_rails_01f020e267; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY transactions
-    ADD CONSTRAINT fk_rails_01f020e267 FOREIGN KEY (account_id) REFERENCES accounts(id);
-
-
---
 -- Name: tags fk_rails_d8be626a4c; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY tags
     ADD CONSTRAINT fk_rails_d8be626a4c FOREIGN KEY (ledger_id) REFERENCES ledgers(id);
+
+
+--
+-- Name: transactions fk_tx_on_acc_id_lid_refs_acc_on_acc_id_lid; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY transactions
+    ADD CONSTRAINT fk_tx_on_acc_id_lid_refs_acc_on_acc_id_lid FOREIGN KEY (account_id, ledger_id) REFERENCES accounts(id, ledger_id);
 
 
 --

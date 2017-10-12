@@ -29,7 +29,9 @@ FactoryGirl.define do
     comment { FFaker::Lorem.sentence }
     date { FFaker::Time.datetime }
 
-    account
+    ledger do
+      ledger = account ? account.ledger : create(:ledger)
+    end
   end
 
   factory :ledger do
