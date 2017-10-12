@@ -30,5 +30,11 @@ describe Account, type: :model do
       transactions = create_list(:transaction, 5, account: account)
       expect(account.transactions.to_json).to eql transactions.to_json
     end
+
+    it 'have many tags' do
+      account = create(:account)
+      transactions = create_list(:transaction, 5, account: account)
+      expect(account.transactions.to_json).to eql transactions.to_json
+    end
   end
 end

@@ -2,11 +2,11 @@
 
 require 'rails_helper'
 
-RSpec.describe TransactionTag, type: :model do
+RSpec.describe Tag, type: :model do
   describe 'create' do
     it 'should save a new tag' do
-      created = create(:transaction_tag)
-      db_rec = TransactionTag.find(created.id)
+      created = create(:tag)
+      db_rec = Tag.find(created.id)
       expect(db_rec.attributes).to eql(created.attributes)
     end
   end
@@ -14,7 +14,7 @@ RSpec.describe TransactionTag, type: :model do
   describe 'associations' do
     it 'should belong to ledger' do
       ledger = create(:ledger)
-      created = create(:transaction_tag, ledger: ledger)
+      created = create(:tag, ledger: ledger)
       expect(created.ledger).to eq ledger
     end
   end

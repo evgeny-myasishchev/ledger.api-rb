@@ -1,5 +1,5 @@
 # frozen_string_literal: true
 
-class TransactionTag < ApplicationRecord
+class Tag < ApplicationRecord
   belongs_to :ledger
 end

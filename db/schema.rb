@@ -52,10 +52,10 @@ ActiveRecord::Schema.define(version: 20171010054348) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "transaction_tags", force: :cascade do |t|
+  create_table "tags", force: :cascade do |t|
     t.string "ledger_id", null: false
     t.string "name", null: false
-    t.index ["ledger_id"], name: "index_transaction_tags_on_ledger_id"
+    t.index ["ledger_id"], name: "index_tags_on_ledger_id"
   end
 
   create_table "transactions", id: :string, force: :cascade do |t|
@@ -77,6 +77,6 @@ ActiveRecord::Schema.define(version: 20171010054348) do
   add_foreign_key "accounts", "account_categories"
   add_foreign_key "accounts", "ledgers"
   add_foreign_key "ledger_users", "ledgers"
-  add_foreign_key "transaction_tags", "ledgers"
+  add_foreign_key "tags", "ledgers"
   add_foreign_key "transactions", "accounts"
 end

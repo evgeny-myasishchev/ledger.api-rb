@@ -7,7 +7,7 @@ FactoryGirl.define do
     ledger
   end
 
-  factory :transaction_tag do
+  factory :tag do
     name { FakeData.fake_string 'Category' }
     ledger
   end
