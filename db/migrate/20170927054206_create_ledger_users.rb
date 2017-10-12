@@ -7,6 +7,6 @@ class CreateLedgerUsers < ActiveRecord::Migration[5.1]
       t.index :user_id
       t.boolean :is_owner, null: false, default: false
     end
-    add_foreign_key :ledger_users, :ledgers
+    add_foreign_key :ledger_users, :ledgers, name: 'fk_ledger_users_on_ledger_id_refs_ledgers_on_ledger_id'
   end
 end

@@ -37,4 +37,14 @@ describe Account, type: :model do
       expect(account.transactions.to_json).to eql transactions.to_json
     end
   end
+
+  describe 'constraints' do
+    it 'should restrict assigning category from a different ledger' do
+      ledger = create(:ledger)
+      bad_ledger_category = create(:account_category)
+      account = create(:account, ledger: ledger)
+      account.account_category_id = bad_ledger_category.id
+      expect { account.save! }.to raise_error ActiveRecord::InvalidForeignKey, /fk_acc_on_acc_cat_id_lid_refs_acc_cat_on_id_lid/
+    end
+  end
 end
