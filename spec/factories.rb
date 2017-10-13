@@ -30,7 +30,7 @@ FactoryGirl.define do
     date { FFaker::Time.datetime }
 
     ledger do
-      ledger = account ? account.ledger : create(:ledger)
+      account ? account.ledger : create(:ledger)
     end
   end
 
