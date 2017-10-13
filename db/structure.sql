@@ -154,6 +154,17 @@ ALTER SEQUENCE tags_id_seq OWNED BY tags.id;
 
 
 --
+-- Name: transaction_tags; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE transaction_tags (
+    transaction_id character varying NOT NULL,
+    tag_id character varying NOT NULL,
+    ledger_id character varying NOT NULL
+);
+
+
+--
 -- Name: transactions; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -273,10 +284,24 @@ CREATE INDEX index_ledger_users_on_user_id ON ledger_users USING btree (user_id)
 
 
 --
+-- Name: index_tags_on_id_and_ledger_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_tags_on_id_and_ledger_id ON tags USING btree (id, ledger_id);
+
+
+--
 -- Name: index_tags_on_ledger_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_tags_on_ledger_id ON tags USING btree (ledger_id);
+
+
+--
+-- Name: index_transaction_tags_on_transaction_id_and_tag_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_transaction_tags_on_transaction_id_and_tag_id ON transaction_tags USING btree (transaction_id, tag_id);
 
 
 --
@@ -328,6 +353,14 @@ ALTER TABLE ONLY transactions
 
 
 --
+-- Name: transaction_tags fk_tx_tags_on_tag_id_lid_refs_tags_on_id_lid; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY transaction_tags
+    ADD CONSTRAINT fk_tx_tags_on_tag_id_lid_refs_tags_on_id_lid FOREIGN KEY (tag_id, ledger_id) REFERENCES accounts(id, ledger_id);
+
+
+--
 -- PostgreSQL database dump complete
 --
 
@@ -339,6 +372,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20170927060507'),
 ('20170927060627'),
 ('20171009064434'),
-('20171010054348');
+('20171010054348'),
+('20171013053224');
 
 
