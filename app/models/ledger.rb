@@ -3,9 +3,10 @@
 class Ledger < ApplicationRecord
   include Loggable
 
+  has_many :account_categories
   has_many :accounts
   has_many :ledger_users
-  has_many :account_categories
+  has_many :tags
 
   before_create do
     self.id = SecureRandom.uuid unless id
@@ -27,5 +28,12 @@ class Ledger < ApplicationRecord
     logger.info 'Creating a new account category', category.attributes
     category.save!
     category
+  end
+
+  def create_tag!(params)
+    tag = tags.build params
+    logger.info 'Creating a new tag category', tag.attributes
+    tag.save!
+    tag
   end
 end

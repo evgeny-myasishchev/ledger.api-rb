@@ -36,6 +36,12 @@ RSpec.describe Ledger, type: :model do
       account_categories = create_list(:account_category, 3, ledger: ledger)
       expect(ledger.account_categories.to_json).to eql account_categories.to_json
     end
+
+    it 'should have many tags' do
+      ledger = create(:ledger)
+      tags = create_list(:tag, 3, ledger: ledger)
+      expect(ledger.tags.to_json).to eq tags.to_json
+    end
   end
 
   describe 'create_account!' do
@@ -88,6 +94,18 @@ RSpec.describe Ledger, type: :model do
     it 'should set display_order to a one if no records yet' do
       created = ledger.create_account_category! build(:account_category).attributes.except('display_order')
       expect(created.display_order).to eql 1
+    end
+  end
+
+  describe 'create_tag!' do
+    it 'should create a new tag for the ledger' do
+      ledger = create(:ledger)
+      attribs = build(:tag).attributes.except('ledger_id')
+      tag = ledger.create_tag! attribs
+      expect(tag.attributes).to eql attribs.merge('id' => tag.id, 'ledger_id' => ledger.id)
+
+      db_rec = Tag.find tag.id
+      expect(db_rec.attributes).to eql tag.attributes
     end
   end
 end
