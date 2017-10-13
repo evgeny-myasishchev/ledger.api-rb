@@ -40,6 +40,16 @@ RSpec.describe Transaction, type: :model do
       transaction = create(:transaction, ledger: ledger)
       expect(transaction.ledger).to eql ledger
     end
+
+    it 'should have many tags' do
+      ledger = create(:ledger)
+      tags = create_list(:tag, 5, ledger: ledger)
+      transaction = create(:transaction, ledger: ledger)
+      transaction.tags << tags
+
+      db_rec = Transaction.find transaction.id
+      expect(db_rec.tags.to_json).to eql tags.to_json
+    end
   end
 
   describe 'constraints' do
@@ -48,6 +58,13 @@ RSpec.describe Transaction, type: :model do
       transaction = create(:transaction)
       transaction.account_id = bad_account.id
       expect { transaction.save! }.to raise_error ActiveRecord::InvalidForeignKey, /fk_tx_on_acc_id_lid_refs_acc_on_acc_id_lid/
+    end
+
+    it 'should should restrict using tag from a different ledger' do
+      tag1 = create(:tag)
+      tag2 = create(:tag)
+      transaction = create(:transaction, ledger: tag1.ledger)
+      expect { transaction.tags << tag2 }.to raise_error ActiveRecord::InvalidForeignKey, /fk_tx_tags_on_tx_id_lid_id_refs_tx_on_id_lid/
     end
   end
 end

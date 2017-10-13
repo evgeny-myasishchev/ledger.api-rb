@@ -13,7 +13,7 @@ class CreateTransactions < ActiveRecord::Migration[5.1]
       t.boolean :is_refund, null: false, default: false
       t.boolean :is_transfer, null: false, default: false
       t.boolean :is_pending, null: false, default: false
-
+      t.index %i[id ledger_id], unique: true
       t.timestamps
     end
 

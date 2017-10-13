@@ -158,9 +158,9 @@ ALTER SEQUENCE tags_id_seq OWNED BY tags.id;
 --
 
 CREATE TABLE transaction_tags (
+    ledger_id character varying NOT NULL,
     transaction_id character varying NOT NULL,
-    tag_id character varying NOT NULL,
-    ledger_id character varying NOT NULL
+    tag_id integer NOT NULL
 );
 
 
@@ -298,10 +298,17 @@ CREATE INDEX index_tags_on_ledger_id ON tags USING btree (ledger_id);
 
 
 --
--- Name: index_transaction_tags_on_transaction_id_and_tag_id; Type: INDEX; Schema: public; Owner: -
+-- Name: index_transactions_on_id_and_ledger_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX index_transaction_tags_on_transaction_id_and_tag_id ON transaction_tags USING btree (transaction_id, tag_id);
+CREATE UNIQUE INDEX index_transactions_on_id_and_ledger_id ON transactions USING btree (id, ledger_id);
+
+
+--
+-- Name: index_tx_tags_on_tx_id_and_ld_id_and_tag_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_tx_tags_on_tx_id_and_ld_id_and_tag_id ON transaction_tags USING btree (transaction_id, ledger_id, tag_id);
 
 
 --
@@ -353,11 +360,19 @@ ALTER TABLE ONLY transactions
 
 
 --
--- Name: transaction_tags fk_tx_tags_on_tag_id_lid_refs_tags_on_id_lid; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: transaction_tags fk_tx_tags_on_tid_lid_refs_tags_on_id_lid; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY transaction_tags
-    ADD CONSTRAINT fk_tx_tags_on_tag_id_lid_refs_tags_on_id_lid FOREIGN KEY (tag_id, ledger_id) REFERENCES accounts(id, ledger_id);
+    ADD CONSTRAINT fk_tx_tags_on_tid_lid_refs_tags_on_id_lid FOREIGN KEY (tag_id, ledger_id) REFERENCES tags(id, ledger_id);
+
+
+--
+-- Name: transaction_tags fk_tx_tags_on_tx_id_lid_id_refs_tx_on_id_lid; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY transaction_tags
+    ADD CONSTRAINT fk_tx_tags_on_tx_id_lid_id_refs_tx_on_id_lid FOREIGN KEY (transaction_id, ledger_id) REFERENCES transactions(id, ledger_id);
 
 
 --

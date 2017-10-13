@@ -11,6 +11,8 @@ class Transaction < ApplicationRecord
 
   belongs_to :account, optional: true
   belongs_to :ledger
+  has_many :transaction_tags
+  has_many :tags, through: :transaction_tags
 
   validates :type_id, inclusion: { in: [DEBIT, CREDIT] }
 end
