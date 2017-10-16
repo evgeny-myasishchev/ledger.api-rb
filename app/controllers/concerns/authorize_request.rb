@@ -35,7 +35,9 @@ module AuthorizeRequest
         logger.info "Request authorized. Subject: #{user.user_id}"
         request.env['ledger.user'] = user
       }
-      before_action handle, only: [action]
+
+      # Has to be the first filter
+      prepend_before_action handle, only: [action]
     end
   end
 end

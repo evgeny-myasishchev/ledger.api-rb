@@ -3,8 +3,10 @@
 module V1
   class AccountsController < ApplicationController
     require_scopes :index, ['read:accounts']
+    before_action -> { @ledger = current_user.ledgers.find params[:ledger_id] }, only: %i[index create]
+
     def index
-      accounts = Account.all
+      accounts = @ledger.accounts
       respond_to do |format|
         format.json { render json: accounts }
       end
@@ -13,9 +15,7 @@ module V1
     require_scopes :create, ['write:accounts']
     def create
       account_params = create_params(params)
-      ledger = Ledger.find account_params[:ledger_id]
-      # TODO: Eusure user is authorized with that ledger
-      account = ledger.create_account! current_user, account_params
+      account = @ledger.create_account! current_user, account_params
       respond_to do |format|
         format.json { render json: account, status: :created }
       end

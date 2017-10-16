@@ -1,7 +1,14 @@
 # frozen_string_literal: true
 
-shared_examples 'authorized action' do |method, path_helper, permitted_scopes|
-  let(:path) { send path_helper }
+shared_examples 'authorized action' do |method, params|
+  let(:path) do
+    path_param = params[:path]
+    send path_param[:helper], path_param.except(:helper)
+  end
+
+  let(:permitted_scopes) do
+    params[:permitted_scopes]
+  end
 
   it 'responds with 401 if no auth header' do
     process method, path
