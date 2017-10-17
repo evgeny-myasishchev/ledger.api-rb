@@ -17,5 +17,12 @@ RSpec.describe AccountCategory, type: :model do
       created = create(:account_category, ledger: ledger)
       expect(created.ledger).to eq ledger
     end
+
+    it 'should have many accounts' do
+      ledger = create(:ledger)
+      category = create(:account_category, ledger: ledger)
+      accounts = create_list(:account, 5, ledger: ledger, category: category)
+      expect(category.accounts.to_json).to eql accounts.to_json
+    end
   end
 end

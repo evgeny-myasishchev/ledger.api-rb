@@ -25,6 +25,13 @@ describe Account, type: :model do
       expect(account.ledger).to eql ledger
     end
 
+    it 'should belong to category' do
+      ledger = create(:ledger)
+      category = create(:account_category, ledger: ledger)
+      account = create(:account, ledger: ledger, category: category)
+      expect(account.category).to eql category
+    end
+
     it 'have many transactions' do
       account = create(:account)
       transactions = create_list(:transaction, 5, account: account)
