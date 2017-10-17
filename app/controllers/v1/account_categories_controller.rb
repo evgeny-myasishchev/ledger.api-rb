@@ -21,7 +21,7 @@ module V1
       end
     end
 
-    def create_params(params)
+    private def create_params(params)
       ActiveModelSerializers::Deserialization.jsonapi_parse! params
     end
   end

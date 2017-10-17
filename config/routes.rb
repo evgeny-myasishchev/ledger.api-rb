@@ -7,6 +7,7 @@ Rails.application.routes.draw do
     resources :ledgers, only: %i[index create] do
       resources :accounts, only: %i[index create], shallow: true
       resources :'account-categories', only: %i[index create], controller: 'account_categories', as: 'account_categories', shallow: true
+      resources :tags, only: %i[index create], shallow: true
     end
   end
 
