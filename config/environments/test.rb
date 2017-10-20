@@ -43,6 +43,6 @@ Rails.application.configure do
   # config.action_view.raise_on_missing_translations = true
 
   # APP specific stuff
-  config.mongo_url = 'mongodb://localhost:27017/ledger-test'
-  config.log_path =  "log/#{Rails.env}.log"
+  config.readable_logging = true
+  config.log_path = "log/#{Rails.env}.log"
 end

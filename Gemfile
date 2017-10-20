@@ -51,6 +51,8 @@ group :development, :test do
   gem 'factory_girl'
   gem 'ffaker'
   gem 'webmock'
+
+  gem 'awesome_print'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

@@ -44,6 +44,5 @@ Rails.application.configure do
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
   # APP specific stuff
-  config.mongo_url = 'mongodb://localhost:27017/ledger-dev'
-  config.use_json_logger = false
+  config.readable_logging = true
 end
