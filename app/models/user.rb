@@ -17,6 +17,10 @@ class User
     Ledger.joins(:ledger_users).where(ledger_users: { user_id: user_id })
   end
 
+  def accounts
+    Account.joins(ledger: :ledger_users).where(ledger_users: { user_id: user_id })
+  end
+
   def create_ledger!(params)
     logger.info "Creating new account for user #{user_id}", params
     ledger = Ledger.new params

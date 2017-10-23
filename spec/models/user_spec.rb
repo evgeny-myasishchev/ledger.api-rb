@@ -13,6 +13,21 @@ describe User, type: :model do
     end
   end
 
+  describe 'accounts', focus: true do
+    it 'should return user accounts through ledgers' do
+      user = build(:user)
+      create_list(:ledger, 2).each do |ledger|
+        create_list(:account, 2, ledger: ledger)
+      end
+      ledgers = create_list(:ledger, 2)
+      accounts = ledgers.map do |l|
+        LedgerUser.create!(ledger_id: l.id, user_id: user.user_id)
+        create_list(:account, 2, ledger: l)
+      end.flatten
+      expect(user.accounts.to_a).to eql accounts
+    end
+  end
+
   describe 'create_ledger!' do
     it 'should create a new ledger for given user' do
       user = build(:user)
