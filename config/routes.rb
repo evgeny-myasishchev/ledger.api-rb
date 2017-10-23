@@ -9,6 +9,9 @@ Rails.application.routes.draw do
       resources :'account-categories', only: %i[index create], controller: 'account_categories', as: 'account_categories', shallow: true
       resources :tags, only: %i[index create], shallow: true
     end
+    resources :accounts, only: %i[] do
+      resources :transactions, only: %(index), shallow: true
+    end
   end
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html

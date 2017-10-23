@@ -13,7 +13,7 @@ describe User, type: :model do
     end
   end
 
-  describe 'accounts', focus: true do
+  describe 'accounts' do
     it 'should return user accounts through ledgers' do
       user = build(:user)
       create_list(:ledger, 2).each do |ledger|
