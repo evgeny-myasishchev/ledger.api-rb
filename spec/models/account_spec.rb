@@ -18,6 +18,71 @@ describe Account, type: :model do
     end
   end
 
+  describe 'report_transaction!', focus: true do
+    let(:user) { build(:user) }
+    let(:account) { create(:account) }
+
+    it 'should should add new transaction object' do
+      transaction = build(:transaction, account: account)
+      account.report_transaction! user, transaction.attributes
+
+      reported = Transaction.find transaction.id
+      expect(reported.account_id).to eql account.id
+      expect(reported.reported_user_id).to eql user.user_id
+      expect(reported).to eql transaction
+    end
+
+    it 'should should return transaction' do
+      transaction = build(:transaction, account: account)
+      ret = account.report_transaction! user, transaction.attributes
+      expect(transaction).to eql(ret)
+    end
+
+    describe 'DEBIT' do
+      it 'should subtract amount from balance' do
+        transaction = build(:transaction, account: account, type_id: Transaction::DEBIT.name, is_pending: false)
+        balance_before = account.balance
+        pending_before = account.pending_balance
+        account.report_transaction! user, transaction.attributes
+        account.reload
+        expect(account.balance).to eql balance_before - transaction.amount
+        expect(account.pending_balance).to eql pending_before
+      end
+
+      it 'should also subtract from pending balance for pending transactions' do
+        transaction = build(:transaction, account: account, type_id: Transaction::DEBIT.name, is_pending: true)
+        balance_before = account.balance
+        pending_before = account.pending_balance
+        account.report_transaction! user, transaction.attributes
+        account.reload
+        expect(account.balance).to eql balance_before - transaction.amount
+        expect(account.pending_balance).to eql pending_before - transaction.amount
+      end
+    end
+
+    describe 'CREDIT' do
+      it 'should should add amount to balance' do
+        transaction = build(:transaction, account: account, type_id: Transaction::CREDIT.name, is_pending: false)
+        balance_before = account.balance
+        pending_before = account.pending_balance
+        account.report_transaction! user, transaction.attributes
+        account.reload
+        expect(account.balance).to eql balance_before + transaction.amount
+        expect(account.pending_balance).to eql pending_before
+      end
+
+      it 'should also add to pending balance for pending transactions' do
+        transaction = build(:transaction, account: account, type_id: Transaction::CREDIT.name, is_pending: true)
+        balance_before = account.balance
+        pending_before = account.pending_balance
+        account.report_transaction! user, transaction.attributes
+        account.reload
+        expect(account.balance).to eql balance_before + transaction.amount
+        expect(account.pending_balance).to eql pending_before + transaction.amount
+      end
+    end
+  end
+
   describe 'associations' do
     it 'should belong to ledger' do
       ledger = create(:ledger)

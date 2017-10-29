@@ -18,6 +18,8 @@ FactoryGirl.define do
     created_user_id { FakeData.fake_string 'user' }
     currency_code { FFaker::Currency.code }
     display_order { rand(100) }
+    balance { rand(50_000) }
+    pending_balance { rand(50_000) }
     ledger
   end
 
@@ -25,7 +27,7 @@ FactoryGirl.define do
     id { SecureRandom.uuid }
     reported_user_id { FakeData.fake_string 'user' }
     amount { rand(10_000) }
-    type_id { FakeData.pick_one(Transaction::DEBIT, Transaction::CREDIT) }
+    type_id { FakeData.pick_one(Transaction::DEBIT.name, Transaction::CREDIT.name) }
     comment { FFaker::Lorem.sentence }
     date { FFaker::Time.datetime }
 
