@@ -5,4 +5,6 @@ class TransactionSerializer < ActiveModel::Serializer
              :type_id, :amount, :comment, :date,
              :is_refund, :is_transfer, :is_pending,
              :created_at, :updated_at
+
+  has_many :tags
 end

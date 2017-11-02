@@ -29,6 +29,7 @@ module V1
                                                                comment
                                                                date
                                                                is_refund
+                                                               tags
                                                              ])
     end
   end
