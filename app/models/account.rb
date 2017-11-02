@@ -17,6 +17,7 @@ class Account < ApplicationRecord
   def report_transaction!(user, params)
     trans = transactions.build params
     trans.reported_user_id = user.user_id
+    trans.ledger_id = ledger_id
     logger.info "Reporting new transaction id=#{trans.id}, account_id: #{id}, amount: #{trans.amount}, type: #{trans.type_id}"
     self.balance = trans.calculate_balance balance
     logger.info "Account balance changed: #{balance}"

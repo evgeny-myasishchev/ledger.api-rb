@@ -18,13 +18,13 @@ describe Account, type: :model do
     end
   end
 
-  describe 'report_transaction!', focus: true do
+  describe 'report_transaction!' do
     let(:user) { build(:user) }
     let(:account) { create(:account) }
 
     it 'should should add new transaction object' do
       transaction = build(:transaction, account: account)
-      account.report_transaction! user, transaction.attributes
+      account.report_transaction! user, transaction.attributes.except('ledger_id')
 
       reported = Transaction.find transaction.id
       expect(reported.account_id).to eql account.id

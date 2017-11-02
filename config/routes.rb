@@ -10,7 +10,7 @@ Rails.application.routes.draw do
       resources :tags, only: %i[index create], shallow: true
     end
     resources :accounts, only: %i[] do
-      resources :transactions, only: %(index), shallow: true
+      resources :transactions, only: %i[index create]
     end
   end
 
