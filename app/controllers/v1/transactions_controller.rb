@@ -6,9 +6,16 @@ module V1
 
     require_scopes :index, ['read:transactions']
     def index
-      transactions = @account.transactions
+      page = params.fetch(:page, {})
+      limit = page.fetch(:limit, 10)
+      offset = page.fetch(:offset, 0)
+      transactions = @account.transactions.offset(offset).take(limit)
       respond_to do |format|
-        format.json { render json: transactions }
+        format.json do
+          render json: transactions,
+                 each_serializer: TransactionListItemSerializer,
+                 meta: { total_count: @account.transactions.length }
+        end
       end
     end
 

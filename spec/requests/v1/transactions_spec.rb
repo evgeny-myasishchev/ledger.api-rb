@@ -15,15 +15,32 @@ RSpec.describe 'V1::Transactions', type: :request do
     it 'should return account transactions' do
       ledger_user = create(:ledger_user)
       ledger = ledger_user.ledger
-      tags = create_list(:tag, 3, ledger: ledger)
       account = create(:account, ledger: ledger)
-      transactions = create_list(:transaction, 5, ledger: ledger, account: account, tags: tags)
+      transactions = create_list(:transaction, 5, ledger: ledger, account: account)
       get v1_account_transactions_path(account_id: account.id), with_valid_auth_header(scope: 'read:transactions', sub: ledger_user.user_id)
       expect(response).to have_http_status(200)
 
-      expected_response = json_api_serialize(transactions)
-      expect(response.body).to eql(expected_response.to_json)
-      expect(expected_response.as_json[:data][0][:relationships][:tags][:data].size).to eql tags.size
+      expected_response = json_api_serialize(transactions, each_serializer: TransactionListItemSerializer)
+      response_data = JSON.parse(response.body)
+      expect(response_data['data']).to eql(expected_response['data'])
+      expect(response_data&.[]('meta')&.[]('total_count')).to eql(transactions.length)
+    end
+
+    it 'should paginate' do
+      ledger_user = create(:ledger_user)
+      ledger = ledger_user.ledger
+      account = create(:account, ledger: ledger)
+      transactions = create_list(:transaction, 10, ledger: ledger, account: account)
+      get v1_account_transactions_path(account_id: account.id),
+          with_valid_auth_header(scope: 'read:transactions', sub: ledger_user.user_id)
+        .merge(params: { page: { offset: 6, limit: 3 } })
+      expect(response).to have_http_status(200)
+
+      expected_response = json_api_serialize(transactions[6..8], each_serializer: TransactionListItemSerializer)
+      response_data = JSON.parse(response.body)
+      expect(response_data['data'].size).to eql(3)
+      expect(response_data['data']).to eq(expected_response['data'])
+      expect(response_data&.[]('meta')&.[]('total_count')).to eql(transactions.length)
     end
 
     it 'should fail with 404 if ledger is not shared with user' do
