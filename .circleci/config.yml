@@ -25,6 +25,7 @@ jobs:
             - vendor/bundle
 
       # Database setup
+      - run: sudo apt install postgresql-client
       - run: bundle exec rake db:create
       - run: bundle exec rake db:structure:load
 
