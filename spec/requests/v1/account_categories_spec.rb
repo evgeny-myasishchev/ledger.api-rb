@@ -20,7 +20,7 @@ RSpec.describe 'V1::AccountCategories', type: :request do
       expect(response).to have_http_status(200)
 
       expected_response = json_api_serialize(categories)
-      expect(response.body).to eql(expected_response.to_json)
+      expect(JSON.parse(response.body)).to eql(expected_response)
     end
 
     it 'should fail with 404 if ledger is not shared with user' do

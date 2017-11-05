@@ -47,7 +47,7 @@ RSpec.describe 'V1::Accounts', type: :request do
 
     it 'should create a new account' do
       ledger_user = create(:ledger_user)
-      account = build(:account, ledger: ledger_user.ledger, created_user_id: ledger_user.user_id)
+      account = build(:account, ledger: ledger_user.ledger, created_user_id: ledger_user.user_id, pending_balance: 0)
       json = json_api_serialize(account).as_json.with_indifferent_access
       post v1_ledger_accounts_path(ledger_id: ledger_user.ledger_id),
            with_valid_auth_header(scope: 'write:accounts', sub: ledger_user.user_id).merge(params: json)
@@ -61,9 +61,9 @@ RSpec.describe 'V1::Accounts', type: :request do
 
     it 'should create a new account without an id' do
       ledger_user = create(:ledger_user)
-      account = build(:account, created_user_id: ledger_user.user_id)
-      json_data = json_api_serialize(account).as_json
-      json_data[:data].delete(:id)
+      account = build(:account, created_user_id: ledger_user.user_id, pending_balance: 0)
+      json_data = json_api_serialize(account)
+      json_data['data'].delete(:id)
       post v1_ledger_accounts_path(ledger_id: ledger_user.ledger_id),
            with_valid_auth_header(scope: 'write:accounts', sub: ledger_user.user_id).merge(params: json_data)
       expect(response).to have_http_status(201)

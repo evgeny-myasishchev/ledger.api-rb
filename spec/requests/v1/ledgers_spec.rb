@@ -7,7 +7,9 @@ RSpec.describe 'V1::Ledgers', type: :request do
   include AuthHelpers
 
   describe 'GET /v1/ledgers' do
-    it_behaves_like 'authorized action', :get, :v1_ledgers_path, 'read:ledgers'
+    it_behaves_like 'authorized action', :get,
+                    path: { helper: :v1_ledgers_path },
+                    permitted_scopes: 'read:ledgers'
 
     it 'should return ledgers for given user' do
       user = build(:user)
@@ -19,12 +21,14 @@ RSpec.describe 'V1::Ledgers', type: :request do
       expect(response).to have_http_status(200)
 
       expected_response = json_api_serialize(ledgers)
-      expect(response.body).to eql(expected_response.to_json)
+      expect(JSON.parse(response.body)).to eql(expected_response)
     end
   end
 
   describe 'POST /v1/ledgers' do
-    it_behaves_like 'authorized action', :post, :v1_ledgers_path, 'write:ledgers'
+    it_behaves_like 'authorized action', :post,
+                    path: { helper: :v1_ledgers_path },
+                    permitted_scopes: 'write:ledgers'
 
     it 'should create a new ledger for given user' do
       ledger_user = create(:ledger_user)
@@ -33,7 +37,7 @@ RSpec.describe 'V1::Ledgers', type: :request do
       post v1_ledgers_path, with_valid_auth_header(scope: 'write:ledgers', sub: ledger_user.user_id).merge(params: json)
       expected_response = json_api_serialize(ledger)
       expect(response).to have_http_status(201)
-      expect(response.body).to eql(expected_response.to_json)
+      expect(JSON.parse(response.body)).to eql(expected_response)
 
       db_ledger = Ledger.find ledger.id
       expect(db_ledger.attributes.except('created_at', 'updated_at')).to eql(ledger.attributes.except('created_at', 'updated_at'))
