@@ -1,7 +1,0 @@
-dependencies:
-  pre:
-    - gem install bundler
-
-test:
-  override: 
-    - bundle exec rspec --require rails_helper -f d spec
