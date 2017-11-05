@@ -9,12 +9,15 @@ module V1
       page = params.fetch(:page, {})
       limit = page.fetch(:limit, 10)
       offset = page.fetch(:offset, 0)
-      transactions = @account.transactions.offset(offset).take(limit)
+      transactions = @account.transactions
+                             .includes(:tags)
+                             .offset(offset)
+                             .take(limit)
       respond_to do |format|
         format.json do
           render json: transactions,
-                 each_serializer: TransactionListItemSerializer,
-                 meta: { total_count: @account.transactions.length }
+                 each_serializer: TransactionSerializer,
+                 meta: { total_count: @account.transactions.count }
         end
       end
     end
