@@ -14,6 +14,8 @@ class CreateAccount < ActiveRecord::Migration[5.1]
       t.integer 'balance', default: 0, null: false
       t.integer 'pending_balance', default: 0, null: false
       t.boolean 'is_closed', null: false, default: false
+
+      t.timestamps precision: 6
     end
     add_index(:accounts, %i[id ledger_id], unique: true)
     add_foreign_key :accounts, :ledgers, name: 'fk_accounts_on_ledger_id_refs_ledgers_id'

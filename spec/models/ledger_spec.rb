@@ -50,7 +50,11 @@ RSpec.describe Ledger, type: :model do
       ledger = create(:ledger)
       account_attribs = build(:account, created_user_id: user.user_id).attributes.except('ledger_id')
       account = ledger.create_account! user, account_attribs.except('created_user_id')
-      expect(account.attributes).to eql account_attribs.merge 'ledger_id' => ledger.id
+      expect(account.attributes).to eql account_attribs.merge(
+        'ledger_id' => ledger.id,
+        'created_at' => account.created_at,
+        'updated_at' => account.updated_at
+      )
       db_account = Account.find(account.id)
       expect(db_account.attributes).to eql account.attributes
     end

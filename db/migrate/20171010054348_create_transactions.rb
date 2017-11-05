@@ -9,12 +9,13 @@ class CreateTransactions < ActiveRecord::Migration[5.1]
       t.string :type_id, null: false
       t.integer :amount, null: false
       t.text :comment
-      t.datetime :date, null: false
+      t.datetime :date, null: false, precision: 6
       t.boolean :is_refund, null: false, default: false
       t.boolean :is_transfer, null: false, default: false
       t.boolean :is_pending, null: false, default: false
       t.index %i[id ledger_id], unique: true
-      t.timestamps
+
+      t.timestamps precision: 6
     end
 
     reversible do |dir|

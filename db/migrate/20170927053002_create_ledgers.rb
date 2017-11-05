@@ -7,7 +7,7 @@ class CreateLedgers < ActiveRecord::Migration[5.1]
       t.string :created_user_id, null: false
       t.string :currency_code, null: false
 
-      t.timestamps
+      t.timestamps precision: 6
     end
   end
 end

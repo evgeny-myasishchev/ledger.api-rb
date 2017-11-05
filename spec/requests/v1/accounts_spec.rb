@@ -56,7 +56,10 @@ RSpec.describe 'V1::Accounts', type: :request do
       expect(response.body).to eql(expected_response.to_json)
 
       db_account = Account.find account.id
-      expect(db_account.attributes).to eql(account.attributes)
+      expect(db_account.attributes).to eql(account.attributes.merge(
+                                             'created_at' => db_account.created_at,
+                                             'updated_at' => db_account.updated_at
+      ))
     end
 
     it 'should create a new account without an id' do
@@ -71,7 +74,10 @@ RSpec.describe 'V1::Accounts', type: :request do
       db_account = Account.find_by name: account.name
       account.id = db_account.id
       account.ledger_id = ledger_user.ledger_id
-      expect(db_account.attributes).to eql(account.attributes)
+      expect(db_account.attributes).to eql(account.attributes.merge(
+                                             'created_at' => db_account.created_at,
+                                             'updated_at' => db_account.updated_at
+      ))
 
       expected_response = json_api_serialize(account)
       expect(response.body).to eql(expected_response.to_json)

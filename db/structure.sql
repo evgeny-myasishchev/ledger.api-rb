@@ -73,7 +73,9 @@ CREATE TABLE accounts (
     unit character varying,
     balance integer DEFAULT 0 NOT NULL,
     pending_balance integer DEFAULT 0 NOT NULL,
-    is_closed boolean DEFAULT false NOT NULL
+    is_closed boolean DEFAULT false NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
 );
 
 
@@ -109,8 +111,8 @@ CREATE TABLE ledgers (
     name character varying NOT NULL,
     created_user_id character varying NOT NULL,
     currency_code character varying NOT NULL,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
 );
 
 
@@ -176,12 +178,12 @@ CREATE TABLE transactions (
     type_id character varying NOT NULL,
     amount integer NOT NULL,
     comment text,
-    date timestamp without time zone NOT NULL,
+    date timestamp(6) without time zone NOT NULL,
     is_refund boolean DEFAULT false NOT NULL,
     is_transfer boolean DEFAULT false NOT NULL,
     is_pending boolean DEFAULT false NOT NULL,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
 );
 
 
