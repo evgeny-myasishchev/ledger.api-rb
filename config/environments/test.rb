@@ -44,5 +44,7 @@ Rails.application.configure do
 
   # APP specific stuff
   config.readable_logging = true
-  config.log_path = "log/#{Rails.env}.log"
+
+  # SEND_LOGS_TO_STDOUT env set for CI builds to see possible issus
+  config.log_path = "log/#{Rails.env}.log" unless ENV.key?('SEND_LOGS_TO_STDOUT')
 end
