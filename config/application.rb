@@ -34,6 +34,7 @@ module LedgerApi
 
     # APP specific stuff
     config.autoload_paths << "#{Rails.root}/lib"
+    config.eager_load_paths << "#{Rails.root}/lib"
     config.log_tags = [:request_id]
     config.log_path = STDOUT
     config.readable_logging = false
