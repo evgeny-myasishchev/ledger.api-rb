@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module V1
+module V2
   class TransactionsController < ApplicationController
     before_action -> { @account = current_user.accounts.find(params[:account_id]) }, only: %i[index create]
 

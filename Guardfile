@@ -50,7 +50,7 @@ guard :rspec, cmd: 'spring rspec' do
   watch(%r{^app/lib/(?<path>.+)\.rb$}) { |m| "spec/lib/#{m[:path]}_spec.rb" }
 
   # Uncomment line below and adjust as needed to trigger parcitular spec if not related file changes
-  # watch(%r{^app/controllers/concerns/.+\.rb$}) { "#{rspec.spec_dir}/requests/v1/accounts_spec.rb" }
+  # watch(%r{^app/controllers/concerns/.+\.rb$}) { "#{rspec.spec_dir}/requests/v2/accounts_spec.rb" }
 
   watch(rails.controllers) do |m|
     [

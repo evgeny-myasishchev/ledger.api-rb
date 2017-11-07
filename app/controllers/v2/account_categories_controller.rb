@@ -1,21 +1,21 @@
 # frozen_string_literal: true
 
-module V1
-  class TagsController < ApplicationController
+module V2
+  class AccountCategoriesController < ApplicationController
     before_action -> { @ledger = current_user.ledgers.find params[:ledger_id] }, only: %i[index create]
 
-    require_scopes :index, ['read:tags']
+    require_scopes :index, ['read:account-categories']
     def index
-      tags = @ledger.tags
+      categories = @ledger.account_categories
       respond_to do |format|
-        format.json { render json: tags }
+        format.json { render json: categories }
       end
     end
 
-    require_scopes :create, ['write:tags']
+    require_scopes :create, ['write:account-categories']
     def create
-      tag_params = create_params(params)
-      category = @ledger.create_tag! tag_params
+      category_params = create_params(params)
+      category = @ledger.create_account_category! category_params
       respond_to do |format|
         format.json { render json: category, status: :created }
       end

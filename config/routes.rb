@@ -3,7 +3,7 @@
 Rails.application.routes.draw do
   get '/' => 'health#index'
 
-  namespace :v1 do
+  namespace :v2 do
     resources :ledgers, only: %i[index create] do
       resources :accounts, only: %i[index create], shallow: true
       resources :'account-categories', only: %i[index create], controller: 'account_categories', as: 'account_categories', shallow: true

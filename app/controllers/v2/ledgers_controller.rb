@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module V1
+module V2
   class LedgersController < ApplicationController
     require_scopes :index, ['read:ledgers']
     def index

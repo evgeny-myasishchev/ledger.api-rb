@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module V1
+module V2
   class AccountsController < ApplicationController
     require_scopes :index, ['read:accounts']
     before_action -> { @ledger = current_user.ledgers.find params[:ledger_id] }, only: %i[index create]
