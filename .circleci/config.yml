@@ -24,8 +24,10 @@ jobs:
           paths:
             - vendor/bundle
 
+      # PG client
+      - run: sudo apt-get install postgresql-client
+
       # Database setup
-      - run: sudo apt install postgresql-client
       - run: bundle exec rake db:create
       - run: bundle exec rake db:structure:load
 
