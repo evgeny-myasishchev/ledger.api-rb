@@ -25,7 +25,7 @@ jobs:
             - vendor/bundle
 
       # PG client
-      - run: apt-get update && apt-get install postgresql-client
+      - run: sudo apt-get update && sudo apt-get install postgresql-client
 
       # Database setup
       - run: bundle exec rake db:create
